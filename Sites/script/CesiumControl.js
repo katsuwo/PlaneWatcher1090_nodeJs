@@ -10,7 +10,7 @@
     var CE_modelScale = 1.0;
     var CE_labelScale = 0.6;
     var CE_showContrail = true;
-    const CE_modelURL = 'model/simple.gltf';
+    const CE_modelURL = 'model/model2.bgltf';
 
     function CE_init() {
 		CE_polylines = new Cesium.PolylineCollection(); 
