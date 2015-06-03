@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  		<link rel="stylesheet" type="text/css" href="css/chart.css">
+  		<link rel='stylesheet' href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    	<link rel='stylesheet' type="text/css" href='css/watable.css'/>
+    	<link rel='stylesheet' type="text/css" href='css/tinytools.toggleswitch.min.css'/>
+
+  		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+ 		<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+   		<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="script/jquery.watable.js"></script>
+		<script type="text/javascript" src="script/tinytools.toggleswitch.min.js"></script>
+		<script type="text/javascript" src="script/AjaxControl.js"></script>
+		<script type="text/javascript" src="script/ChartControl.js"></script>
+	</head>
+
+	<body">
+		<div id="sidebar">
+			<div id="sideHeader">
+				<div id="config">
+					<div id="sliderWrapper">
+						<div id="sliderString">Update Interval</div><div id="slider"></div>
+					</div>
+					<div id="DCUWrapper">
+						<div id="DCUString">Dynamic Chart Update</div>
+						<div class="switchWrapper"><input type="checkbox" id="DCUSwitch" value="1" checked></div>
+					</div>
+					<div id="resetBtnWrapper">
+						<button type="button" class="btn active" id ="resetBtn">Map Reset</button>
+					</div>
+				</div>
+				<div id="acDetail"></div>
+			</div>
+			<div id="ui-tab">
+				<ul>
+					<li><a href="#dataChart"<span>Aircraft</span></a></li>
+					<li><a href="#airportChart"<span>AirPort</span></a></li>				
+				</ul>
+				<div id="dataChart"></div>
+				<div id="airportChart">testtest</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+
+

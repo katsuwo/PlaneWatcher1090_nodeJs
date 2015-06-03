@@ -1,0 +1,304 @@
+body {
+	width: 860px;
+	height: 600px;
+}
+#header {
+	width: 800px;
+	height: 50px;
+	margin-left: 30px;
+	text-align: center;
+}
+
+#launcher {
+	margin-top: 30px;
+	margin-left: 30px;
+	width: 200px;
+	height: 265px;
+	padding: 0 0 0 0 ;
+	background-color: #DDD;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+    float: left;
+    color: #666;
+}
+
+#status {
+	margin-top: 30px;
+	margin-left: 30px;
+	width: 200px;
+	height: 265px;
+	padding: 0 0 0 0 ;
+	background-color: #DDD;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+    float: left;
+    color: #666;
+}
+
+#system {
+	margin-top: 30px;
+	margin-left: 30px;
+	width: 340px;
+	height: 265px;
+	padding: 0 0 0 0 ;
+	background-color: #DDD;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+    float: left;
+    color: #666;
+}
+
+#rcvButton {
+	margin: 0 0 10px 0;
+	width: 200px;
+}
+
+#serverContainer{
+	width: 304px;
+	height: 80px;
+	margin-top: 0px;
+	margin-left: 20px;
+	text-align: center;	
+	border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
+
+#serverAddressContainer {
+	width: 150px;
+	height: 50px;
+	text-align: center;
+    float: left;
+}
+
+#serverAddr {
+	width: 130px;
+}
+
+#portContainer{
+	width: 150px;
+	height: 50px;
+	text-align: center;
+    float: left;
+}
+
+#port{
+	width: 130px;
+}
+
+#locationContainer{
+	width: 304px;
+	height: 80px;
+	margin-top: 10px;
+	margin-left: 20px;
+	text-align: center;
+	border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
+
+#latContainer{
+	width: 150px;
+	height:50px;
+	float: left;
+}
+
+#lngContainer{
+	width: 150px;
+	height:50px;
+	float: left;
+}
+
+#lat{
+	width: 130px;	
+}
+
+#lng{
+	width: 130px;	
+}
+
+#RecievedPacket {
+	text-align: left;
+	margin-left: 10px;
+	width: 180px;
+	height: 45px;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
+
+#pps{
+	text-align: left;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 180px;
+	height: 45px;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
+#trakingAC{
+	text-align: left;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 180px;
+	height: 45px;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
+#totalAC{
+	text-align: left;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 180px;
+	height: 45px;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+}
+
+#PacketCapture {
+	margin-top: 30px;
+	margin-left: 30px;
+	width: 800px;
+	height: 300px;
+	padding: 0 0 0 0 ;
+	background-color: #DDD;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+    float: left;
+    color: #666;
+}
+
+#cmdBoxContainer {
+	width: 200px;
+	height: 250px;
+	margin-top: 0px;
+	margin-left: 23px;
+	padding: 0 0 0 0 ;
+    float: left;
+}
+
+#selFileListCmdBox {
+	width: 200px;
+	height: 110px;
+	padding: 0 0 0 0 ;
+	background-color: #DDD;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+    float: left;
+    color: #666;
+}
+
+#selFileTime{
+	text-align: center;
+	width: 180px;
+	height: 50px;
+	margin-left: 10px;
+	margin-top: 10px;
+    float: left;
+    color: #666;
+}
+
+#buttonContainer{
+	width: 180px;
+	height: 50px;
+	margin-left: 10px;
+	margin-top: 00px;
+	float: left;
+	position: relative;
+}
+
+#playButton{
+	margin: 0 0 00 0;
+	width: 70px;
+	float: left;
+	top:00px;
+	left: 10px;
+	position: absolute;
+}
+
+#deleteButton {
+	margin: 0 0 0 0;
+	width: 70px;
+	top:0px;
+	left: 95px;
+	position: absolute;
+
+}
+
+#recButton{
+	margin: 0 0 00 0;
+	width: 70px;
+	float: left;
+	top:00px;
+	left: 10px;
+	position: absolute;
+}
+
+#stopButton {
+	margin: 0 0 0 0;
+	width: 70px;
+	top:0px;
+	left: 95px;
+	position: absolute;
+}
+
+
+#newFileString{
+	text-align: center;
+	width: 180px;
+	height: 50px;
+	margin-left: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+    float: left;
+    color: #666;
+}
+
+#newFileListCmdBox {
+	width: 200px;
+	height: 110px;
+	padding: 0 0 0 0 ;
+	margin-top: 10px;
+	background-color: #DDD;
+    border:2px solid #999; 
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    text-align: center;
+    float: left;
+    color: #666;
+}
+#memoField{
+	width: 156px;
+	margin-right: 7px;
+}
+#fileListChart {
+	width: 530px;
+	height: 229px;
+	margin-left: 23px;
+	margin-bottom: 15px;
+	background-color: #EEE;
+	float: left;
+}
+.memoColumn {
+	text-align: left;
+	width: 300px;
+}

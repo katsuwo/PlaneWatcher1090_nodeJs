@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html> 
+	<head>
+	<head>
+		<title>PlaneWatcher1090 Menu</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  		<link rel="stylesheet" type="text/css" href="css/index.css">
+  		<link rel='stylesheet' href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    	<link rel='stylesheet' type="text/css" href='css/watable.css'/>
+    	<link rel='stylesheet' type="text/css" href='css/tinytools.toggleswitch.min.css'/>
+
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+ 		<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+   		<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="script/jquery.watable.js"></script>
+		<script type="text/javascript" src="script/tinytools.toggleswitch.min.js"></script>
+		<script type="text/javascript" src="script/index.js"></script>
+	</head>
+	<body style="background-color:#EEE;" onload="ID_init()">
+		<div id="header" >
+			<h1>Welcome to PlaneWatcher1090</h1>
+			<p>ADS-B Decoding server and Cesium , GoogleEarth , GoogleMaps based client software.</p>
+		</div>
+
+
+	<div id ="launcher" >
+		<h4>Launcher</h4>
+		<p>
+		<button　type ="button" class="btn btn-primary xs" style="width:150px"
+		 		onclick="window.open('cesium.html')">Cesium</button>			
+		</p>
+		<p>
+		<button　type ="button" class="btn btn-primary xs" style="width:150px" 
+				onclick="window.open('googleEarth.html')">Google Earth</button>
+		</p>
+		<p>
+		<button　type ="button" class="btn btn-primary xs" style="width:150px"
+				onclick="window.open('googleMap.html')">Google Map</button>
+		</p>	
+		<p>
+		<button　type ="button" class="btn btn-primary xs" style="width:150px"
+				onclick="window.open('chart.html')">Chart</button>
+		</p>
+		<p>
+		<button　type ="button" class="btn btn-primary xs" style="width:150px"
+				onclick="window.open('analytics.html')">Analytics</button>
+		</p>	
+	</div>
+	<div id="system">
+		<h4>System</h4>
+		<button type ="button" class="btn btn-primary xs" id="rcvButton" onclick="ID_rcvPushed()">ADS-B Receive Start</button>
+		<div id="serverContainer">
+			RAW Data Server</br>
+			<div id="serverAddressContainer">
+				URL
+				<input type="text" id="serverAddr"></input>
+			</div>
+			<div id="portContainer">
+				Port
+				<input type="text" id="port"></input>
+			</div>
+		</div>
+
+		<div id="locationContainer">
+			Your Location<br>
+			<div id ="latContainer">
+				Latitude
+				<input type="text" id="lat"></input>				
+			</div>
+			<div id ="lngContainer">
+				Longitude
+				<input type="text" id="lng"></input>				
+			</div>
+		</div>	
+
+	</div>
+	<div id ="status" >
+		<h4>Status</h4>
+		<div id = "RecievedPacket">Packets Received</div>
+		<div id = "pps">Packets/Sec</div>
+		<div id = "trakingAC">Traking Aircrafts</div>
+		<div id = "totalAC">Total Aircrafts</div>
+	</div>
+	<div id="PacketCapture">
+		<h4>Packet Capture</h4>
+
+		<div id ="cmdBoxContainer">
+			<div id ="selFileListCmdBox">
+				<div id="selFileTime"></div>
+				<div id ="buttonContainer">
+					<button type ="button" class="btn btn-primary xs" id="playButton" onclick="ID_playPushed()">Play</button>
+					<button type ="button" class="btn btn-primary xs" id="deleteButton"onclick="ID_delPushed()">Delete</button>
+				</div>
+			</div>
+
+			<div id ="newFileListCmdBox">
+				<div id="newFileString">Memo
+					<input type="text" id="memoField"></input>
+				</div>
+				<div id ="buttonContainer">
+					<button type ="button" class="btn btn-primary xs" id="recButton" onclick="ID_recPushed()">Rec</button>
+					<button type ="button" class="btn btn-primary xs" id="stopButton" onclick="ID_stopPushed()">Stop</button>
+				</div>
+			</div>
+		</div>
+		<div id ="fileListChart"></div>
+	</div>
+
+	</body>
+</html>

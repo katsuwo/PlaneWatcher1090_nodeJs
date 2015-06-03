@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  		<link rel="stylesheet" type="text/css" href="css/googleEarth.css">
+	    <link rel='stylesheet' type="text/css" href="css/menu.css"/>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script src="http://www.google.com/jsapi?key=AIzaSyApWRi6wT0l_PO5aMKeWm2f3aO_lzyfBSA"></script>
+  		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script type="text/javascript" src="script/googleEarthControl.js"></script>
+		<script type="text/javascript" src="script/AjaxControl.js"></script>
+	</head>
+
+	<body>
+		<div id="map_canvas"></div>
+		<ul id="menu">
+	    <li>
+	        <a href="#">Scale</a>
+	        <ul>
+	            <li>
+	                <a href="#">ModelScale</a>
+	                <ul>
+	                    <li><a href="#" onclick="GE_setModelScale(1.0);">1.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(2.0);">2.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(3.0);">3.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(4.0);">4.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(5.0);">5.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(10.0);">10.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(20.0);">20.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(30.0);">30.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(40.0);">40.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(50.0);">50.0</a></li>
+	                    <li><a href="#" onclick="GE_setModelScale(100.0);">100.0</a></li>
+	                </ul>
+	            </li>
+	            <li>
+	                <a href="#">LabelScale</a>
+	                <ul>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.1);">0.3</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.2);">0.4</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.3);">0.5</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.6);">0.6</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.7);">0.7</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.8);">0.8</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(0.9);">0.9</a></li>
+	                    <li><a href="#" onclick="GE_setLabelScale(1.0);">1.0</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+	    </li>
+	    <li><a href="#">Trajectory</a>
+	        <ul>
+	            <li><a href="#" onclick="GE_setShowContrail(true)">Show</a></li>
+	            <li><a href="#" onclick="GE_setShowContrail(false)">Hide</a></li>
+	        </ul>
+	    </li>
+	</ul>
+	</body>
+</html>
+
+
+

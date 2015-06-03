@@ -1,0 +1,48 @@
+  html { height: 100% }
+
+	html,body{ 
+		height: 100%; 
+		margin: 0px; 
+		padding: 0px; 
+		margin: 0 0 0 0;
+	} 
+	
+  	#sidebar {
+  		height: 100%;
+  		width: 400px;
+  		float: right;
+		  margin: 0 0 0 0;
+  	}
+
+  	#map_canvas { 
+     	height: 100%;
+    	position:absolute;
+    	top: 0;
+    	left: 0;
+/*
+	    right: 400px;
+*/
+		width: 100%;
+	    float:left;
+		  margin: 0 0 0 0;
+		  padding: 0 0 0 0;
+    }
+
+	.labels {
+		color: blue;
+//		background-color: rgba( 255, 0, 0, 0.05 );
+		background-color: clear;
+		font-family: "Lucida Grande", "Arial", sans-serif;
+		text-shadow: white 1px 1px 0px, white -1px 1px 0px,
+             white 1px -1px 0px, white -1px -1px 0px;
+
+		font-size: 10px;
+		font-weight: bold;
+		text-align: center;
+		line-height: 12px;
+		padding: 0;
+		width: 85px;     
+		height: 40px;     
+//		border: 1px solid black;
+		white-space: nowrap;
+	}

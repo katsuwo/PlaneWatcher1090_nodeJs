@@ -1,0 +1,12 @@
+{
+  "name" : "PlaneWatcher1090_Nodejs",
+  "version" : "0.1.0",
+  "description" : "ADS-B Decode & Web-server",
+  "dependencies" : {
+	 "socket.io":"1.3.5",
+	 "mime":"1.3.4",
+	 "sqlite3":"",
+	 "dateformat":"",
+	 "geolib":""
+  }
+}

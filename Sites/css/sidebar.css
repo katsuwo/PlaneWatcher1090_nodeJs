@@ -1,0 +1,91 @@
+
+  	#sideHeader{
+  		height: 30%;
+  		margin: 0 0 0 0;
+  	}
+
+  	#dataChart{
+  		font-size: 8px;
+  		height: 360px;
+  		margin-top: 20px;
+		  margin-left:14px;
+  	}
+
+  	#config{
+  		font-size: 8px;
+  		text-align: center;
+      color: #AAA;  		
+  	}
+
+  	#sliderWrapper{
+  		width: 150px;
+  		margin:5px 1px 0px 14px;
+      padding: 2px 5px 14px 5px;    
+  		float: left;
+      background-color: #EEE;
+      border:2px solid #999; 
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+  	}
+
+    #slider {
+      margin-top: 11px;
+      margin-left: 7px;  
+      margin-right: 7px;  
+    }
+
+  	#DCUWrapper{
+  		margin:5px 1px 5px 1px; 
+      padding: 0px 10px 5px 10px;    
+  		float: left;
+      border:2px solid #999; 
+      background-color: #EEE;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+  		
+  	}
+    #DCUString{
+      margin:2px 1px 5px 1px; 
+
+    }
+    #DCUSwitch{
+      padding-top: 30px;
+    }
+
+    #resetBtnWrapper {
+      margin:5px 1px 5px 1px; 
+      padding: 10px 10px 11px 10px;    
+      float: left;
+      border:2px solid #999; 
+      background-color: #EEE;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;      
+    }
+    
+    #resetBtn {
+      font-size: 8px;
+      text-align: center;
+      color:#C44;
+    }
+
+    #acDetail{
+      font-size: 11px;
+      width: 381px;
+      height: 130px;
+      float: left;
+      border-spacing: 5px 30px;
+      margin:0px 30px 10px 14px; 
+      padding: 5px 5px 5px 5px;    
+      border:2px solid #999; 
+      background-color: #EEE;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;             
+    }
+
+
+    Flight  ICAO  Squawk
+    LAT     LNG     ALT
+    HEDING  Speed　　MSG
+    Searcch by 
+    FR24 FlightStats FlightAware
+
