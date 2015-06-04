@@ -6,13 +6,12 @@ var playEventEmitter = new eventEmitter();
 
 //var rawHost = "localhost";
 //decoder.startDecode("sdrsharp.com",47806);
-var rawHost = "192.168.10.5";
-var rawPort = 30002;
+var rawHost;
+var rawPort;
 var decoder = require('./adsbDecoder');
 decoder.eventEmitter = emitter;
 decoder.PacketCaputre = false;
 decoder.decode = true;
-decoder.startDecode(rawHost,rawPort);
 
 var logLevel = 2;
 var socketio = require('socket.io');
@@ -37,44 +36,74 @@ var packetCountHistory = new Array(24 * 6);
 var trackCountHistory = new Array(24 * 6);
 
 var receiverLocation = {
-	latitude:35.7978189,
-	longitude:139.2972058
+	latitude:0,
+	longitude:0
 };
 
 var directionAndDinstance = new Array(36*10);
 
 var maxRangeLocation = new Array(360);
 
-init();
-function init(){
-	for( var i = 0 ; i < packetCountHistory.length;i++){
-		packetCountHistory[i] = 0;
-		trackCountHistory[i] = 0;
-	}
-
-	for( var i = 0 ; i < directionAndDinstance.length;i++){
-		directionAndDinstance[i] = 0;
-	}
-
-	for( var i = 0 ; i < maxRangeLocation.length;i++){
-		maxRangeLocation[i] = receiverLocation;
-	}
-	initDb();	
-}
-
+initDb();
 function initDb(){
 	var sqlite3 = require("sqlite3").verbose();
-	db = new sqlite3.Database("./packetCapture.sqlite");
+	db = new sqlite3.Database("./dataBase.sqlite");
 	db.serialize(function(){
 		db.all("select count(*) from sqlite_master where type='table' and name='capture'", function(err, rows){
 			var rslt =rows[0]; 
 			if ( rslt['count(*)'] == 0 ){
 				db.run("CREATE TABLE capture (id INTEGER PRIMARY KEY AUTOINCREMENT, recordnum INTEGER, packet TEXT, time INTEGER)");
 				db.run("CREATE TABLE list ( id INTEGER PRIMARY KEY AUTOINCREMENT, recordnum INTEGER, start INTEGER, end INTEGER, memo TEXT)");
-				console.log("create capture & list tables. ");
+				console.log("create capture ,list ,info tables. ");
+				db.all("CREATE TABLE info ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, stringValue TEXT, numberValue REAL)", function(err, rows){
+					//Write DefaultValue
+					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","latitude","",35.552401);
+					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","longitude","",139.786327);
+					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","host","raspberrypi.local",30002);
+					console.log("Write defaultValue");
+					rawHost = "192.168.10.5";
+					rawPort = 30002;
+					receiverLocation.latitude = 35.552401;
+					receiverLocation.longitude = 139.786327;
+					initVariables();
+				});
 			}
 			else {
 				console.log("Tables already exists.");
+				db.all("select * from info", function(err, rows){
+					if (rows.length) {
+						console.log("read settings.");
+						for (var i in rows){
+							var row = rows[i];
+							var name = row.name;
+							switch(name){
+								case 'latitude':
+									receiverLocation.latitude = row.numberValue;
+									break;
+
+								case 'longitude':
+									receiverLocation.longitude = row.numberValue;
+									break;
+
+								case 'host':
+									rawHost = row.stringValue;
+									rawPort = row.numberValue;
+									break;
+
+								default:
+									break;
+							}
+						}
+					}
+					else {
+						console.log("use default setting.");
+						rawHost = "192.168.10.5";
+						rawPort = 30002;
+						receiverLocation.latitude = 35.552401;
+						receiverLocation.longitude = 139.786327;
+					}
+					initVariables();
+				});
 			}
 
 			//get Next Record Num
@@ -111,6 +140,24 @@ function initDb(){
 		});
 	})
 }
+function initVariables(){
+	console.log("initialize variables.")
+	console.log("ReceiverLocation(Lat):"+receiverLocation.latitude.toString());
+	console.log("ReceiverLocation(Lng):"+receiverLocation.longitude.toString());
+	for( var i = 0 ; i < packetCountHistory.length;i++){
+		packetCountHistory[i] = 0;
+		trackCountHistory[i] = 0;
+	}
+
+	for( var i = 0 ; i < directionAndDinstance.length;i++){
+		directionAndDinstance[i] = 0;
+	}
+
+	for( var i = 0 ; i < maxRangeLocation.length;i++){
+		maxRangeLocation[i] = receiverLocation;
+	}
+	decoder.startDecode(rawHost,rawPort);
+}
 
 
 var server = http.createServer(function(request,response){
@@ -132,14 +179,14 @@ function startHttpServer(){
 		console.log("Http Server Listen Start on Port 3000");
 	});
 	io=require('socket.io').listen(server);
-	io.set('log level',1);
+//	io.set('log level',1);
 	io.sockets.on('connection',function(socket){
 
 		//send all aircraft data when client connect to server
 		socket.join('CLIENT');
 		sock = socket;
-		console.log("client connect.");
-		console.log("send all aircraft data.");
+		console.log("Client connect.");
+		console.log("Send all aircraft data.");
 		for ( var name in decoder.aircrafts) {
 			var dat = buildData(decoder.aircrafts[name]);
 			if (dat.LAT == 0.0 && dat.LNG == 0.0) continue;
@@ -155,9 +202,21 @@ function startHttpServer(){
 				TRACKINGAC:Object.keys(decoder.aircrafts).length,
 				TOTALAC:decoder.totalAircraft,
 				REC:decoder.PacketCaputre,
-				PLAYING:isPlayPacket
+				PLAYING:isPlayPacket,
+				RAWLISTEN:decoder.connect
 			};
 			socket.emit('RCVSTATUS',rcvStatus);
+		});
+
+		socket.on('REQ_RAWLISTEN',function(data){
+			console.log("FILESET REQ");
+			if (data.rawListen == true){
+				console.log("STRT CMD RCV");
+				decoder.startDecode(rawHost,rawPort);
+			}
+			else {
+				decoder.terminateRawConnection();	
+			}
 		});
 
 		socket.on('REQ_FILELIST',function(){
@@ -171,6 +230,14 @@ function startHttpServer(){
 				PORT:rawPort
 			};
 			socket.emit('RAWHOST',result);			
+		});
+
+		socket.on('REQ_RCVRLOCATION',function(){
+			var result = {
+				LAT:receiverLocation.latitude,
+				LNG:receiverLocation.longitude
+			};
+			socket.emit('RCVRLOCATION',result);			
 		});
 
 		socket.on('REQ_RECSTART',function(memo){
@@ -236,7 +303,7 @@ playEventEmitter.on("PLAY",function(i){
 	var time = rePlayPacketList[i].time;
 	var intval = ( i == 0 ) ? 0 : time - oldTime;
 	oldTime = time;
-	if (logLevel <= 2 ) console.log(i.toString() + "/" + rePlayPacketList.length.toString() +": " +packet);
+	if (logLevel == 1 ) console.log(i.toString() + "/" + rePlayPacketList.length.toString() +": " +packet);
 	if (isPlayPacket == true) {
 		setTimeout(function(){
 			decoder.decodePackets(packet);
@@ -297,7 +364,6 @@ emitter.on('PACKETCOUNTUPDATE',function(data){
 	var tmp = packetCountHistory[readPos];
 	if (tmp == undefined) tmp = 0;
 	packetCountHistory[readPos] = tmp + data;
-	console.log("P:"+tmp.toString());
 	trackCountHistory[readPos] = decoder.totalAircraft;
 });
 
@@ -329,11 +395,11 @@ function checkAircraftErase() {
 		var tmpAC = decoder.aircrafts[name];
 		if (tmpAC.checkNeedErase() == 'ERASENOTIFY') {
 			delArray.push(name);
-			if (logLevel <= 2 ) console.log("EraseNotify:" + name + ':' + tmpAC.flight);
+			if (logLevel == 1 ) console.log("EraseNotify:" + name + ':' + tmpAC.flight);
 		}
 		if (tmpAC.checkNeedErase() == 'ERASEFROMARRAY') {
 			delete decoder.aircrafts[name];
-			if (logLevel <= 2 ) console.log("EraseFromArray:" + name + ':' + tmpAC.flight);
+			if (logLevel == 1 ) console.log("EraseFromArray:" + name + ':' + tmpAC.flight);
 		}
 	}
 	if (delArray.length) {

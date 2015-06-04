@@ -11,22 +11,65 @@ exports.pps = 0;
 exports.totalAircraft = 0;
 exports.PacketCaputre = false;
 exports.decode = false;
-
+exports.connect = false;
+var isConnectWait = false;
+var timerID;
+var packetCountTimerID;
 var portMap = require('./portMap');
 portMap.init();
 
 exports.startDecode = function(host, port) {
+	console.log("start decode called");
+
+	if (isConnectWait == true){
+		console.log("Conenction command ignored. Now waiting for other connection.");
+		return;
+	}
+	if ( packetCountTimerID != undefined && packetCountTimerID != null) clearTimeout(packetCountTimerID);
 	packetCount();
-	socket = net.createConnection(port, host, function() {
-		console.log("connect Raw message server");
+
+	isConnectWait = true;
+	timerID = setTimeout(function(){
+		console.log('Raw connection timeup.');
+		if (socket != null) socket.destroy();
+		isConnectWait = false;
+	},10000);
+
+	socket = net.createConnection(port, host, function(stream) {
+		console.log("Create Raw message Connection");
 	});
+
+	socket.on('connect', function(data) {
+		console.log("Connect Raw message server");
+		exports.connect = true;
+		isConnectWait = false;
+		clearTimeout(timerID);
+	});
+
+	socket.on('error', function(data) {
+		console.log("Raw message server connection error"+data);
+		exports.connect = false;
+		isConnectWait = false;
+		clearTimeout(timerID);
+	});
+
 	socket.on('data', function(data) {
+		exports.connect = true;
 		if (exports.decode == false) return;
 		if (exports.PacketCaputre == true ) {
 			exports.eventEmitter.emit('RAWDATARECEIVE',data.toString());
 		}
 		exports.decodePackets(data.toString());
+		isConnectWait = false;
+		clearTimeout(timerID);
 	});
+}
+
+exports.terminateRawConnection = function(){
+	console.log('raw connection terminated.');
+	if (exports.connect == false) return;
+	socket.destroy();
+	exports.connect = false;
 }
 
 exports.decodePackets = function(data){
@@ -55,7 +98,7 @@ function packetCount() {
 	exports.pps = tmpPPS;
 	exports.eventEmitter.emit('PACKETCOUNTUPDATE',tmpPPS);
 
-	setTimeout(function(){
+	packetCountTimerID = setTimeout(function(){
 		packetCount();
 	},1000);
 }

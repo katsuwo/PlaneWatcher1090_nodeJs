@@ -40,8 +40,14 @@
             $('#serverAddr').val(result.ADDR);
             $('#port').val(result.PORT.toString());
         });
+        ID_socket.on('RCVRLOCATION',function(result){
+            $('#lat').val(result.LAT.toString());
+            $('#lng').val(result.LNG.toString());
+        });
+
         ID_socket.emit('REQ_FILELIST',null);
         ID_socket.emit('REQ_HOSTINFO',null);
+        ID_socket.emit('REQ_RCVRLOCATION',null);
 	}
 
     function ID_socketCom(){
@@ -238,7 +244,7 @@
         ID_hostPort = $('#port').val();
         ID_recieverLatitude = $('#lat').val();
         ID_recieverLongitue = $('#lng').val(); 
-        ID_rawListenRequest = !ID_rawListenStart;
+        ID_socket.emit('REQ_RAWLISTEN',{rawListen:!ID_rawListenStart});
     }
 
     function ID_delPushed(){
