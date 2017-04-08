@@ -10,7 +10,7 @@
     var CE_modelScale = 1.0;
     var CE_labelScale = 0.6;
     var CE_showContrail = true;
-    const CE_modelURL = 'model/model2.bgltf';
+    const CE_modelURL = '../model/simple_model.glb';
 
     function CE_init() {
 		CE_polylines = new Cesium.PolylineCollection(); 
@@ -34,7 +34,10 @@
 
 	    var position = Cesium.Cartesian3.fromDegrees(lng,lat, alt);
 	    var heading = Cesium.Math.toRadians(heading);
-	    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, heading, pitch, roll);
+//	    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, heading, pitch, roll);
+
+		var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+    	var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 	    var labelPosition = Cesium.Cartesian3.fromDegrees(lng,lat, alt +30000*CE_modelScale);
 
 	    if (flight == undefined){
@@ -71,6 +74,8 @@
 		        scale:CE_modelScale
 	        }
 	    });
+
+	    console.log(current);
 
 		var pts = new Array();
 		var material = Cesium.Material.fromType('Color');
@@ -113,7 +118,11 @@
 	    	var heading = Cesium.Math.toRadians(convertHeading(heading));
 	    	var roll = Cesium.Math.toRadians(roll);
 	    	var pitch = Cesium.Math.toRadians(pitch);	    
-		    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, heading, roll, pitch);
+//		    var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, heading, roll, pitch);
+
+			var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+    		var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
 		    this.marker.position = position;
 	    	this.marker.orientation = orientation;
 	    	this.marker.label.text = this.makeLabelContent(ac);
@@ -232,4 +241,14 @@
 			disp(cartographicPosition.latitude);
 		}
 	}
-
+var current = (function() {
+    if (document.currentScript) {
+        return document.currentScript.src;
+    } else {
+        var scripts = document.getElementsByTagName('script'),
+        script = scripts[scripts.length-1];
+        if (script.src) {
+            return script.src;
+        }
+    }
+})();
