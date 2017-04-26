@@ -8,5 +8,9 @@
 	 "sqlite3":"",
 	 "dateformat":"",
 	 "geolib":""
+  },
+  "repository": {
+	"type" : "git",
+	"url" : "git@github.com:katsuwo/PlaneWatcher1090_nodeJs.git"
   }
 }

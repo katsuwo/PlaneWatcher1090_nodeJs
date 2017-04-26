@@ -20,7 +20,8 @@ portMap.init();
 
 exports.startDecode = function(host, port) {
 	console.log("start decode called");
-
+	console.log("Host:"+host);
+	console.log("Port:"+port);
 	if (isConnectWait == true){
 		console.log("Conenction command ignored. Now waiting for other connection.");
 		return;
@@ -48,6 +49,8 @@ exports.startDecode = function(host, port) {
 
 	socket.on('error', function(data) {
 		console.log("Raw message server connection error"+data);
+		console.log("Host:" + host);
+		console.log("Port:" + port);
 		exports.connect = false;
 		isConnectWait = false;
 		clearTimeout(timerID);

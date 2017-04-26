@@ -6,8 +6,8 @@ var playEventEmitter = new eventEmitter();
 
 //var rawHost = "localhost";
 //decoder.startDecode("sdrsharp.com",47806);
-var rawHost;
-var rawPort;
+var rawHost = "localhost";
+var rawPort = 30002;
 var decoder = require('./adsbDecoder');
 decoder.eventEmitter = emitter;
 decoder.PacketCaputre = false;
@@ -61,8 +61,8 @@ function initDb(){
 					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","longitude","",139.786327);
 					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","host","raspberrypi.local",30002);
 					console.log("Write defaultValue");
-					rawHost = "192.168.10.5";
-					rawPort = 30002;
+//					rawHost = "127.0.0.1";
+//					rawPort = 30002;
 					receiverLocation.latitude = 35.552401;
 					receiverLocation.longitude = 139.786327;
 					initVariables();
@@ -86,8 +86,8 @@ function initDb(){
 									break;
 
 								case 'host':
-									rawHost = row.stringValue;
-									rawPort = row.numberValue;
+//									rawHost = row.stringValue;
+//									rawPort = row.numberValue;
 									break;
 
 								default:
@@ -97,8 +97,8 @@ function initDb(){
 					}
 					else {
 						console.log("use default setting.");
-						rawHost = "192.168.10.5";
-						rawPort = 30002;
+//						rawHost = "127.0.0.1";
+//						rawPort = 30002;
 						receiverLocation.latitude = 35.552401;
 						receiverLocation.longitude = 139.786327;
 					}
