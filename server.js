@@ -44,7 +44,33 @@ var directionAndDinstance = new Array(36*10);
 
 var maxRangeLocation = new Array(360);
 
+for(var i = 0;i < process.argv.length; i++){
+	if ( process.argv[i] == "-r"  || process.argv[i] == "--raw" ){
+		if (process.argv.length <= i + 1 ) {
+			console.log("No specified raw data server address.")
+			printUsage();
+		}
+		rawHost = process.argv[i + 1];
+	}
+
+	if ( process.argv[i] == "-p"  || process.argv[i] == "--port" ){
+		if (process.argv.length <= i + 1 ) {
+			console.log("No specified raw data port.")
+			printUsage();
+		}
+		rawPort = process.argv[i + 1];
+	}
+}
 initDb();
+
+function printUsage(){
+	console.log("----------")
+	console.log("Usage: node server.js [-r | --raw <raw data server ip_address or hostname>] [-p | --port <raw data port>")
+	console.log("Example:")
+	console.log("node server.js -r 192.168.1.123 -p 30001")
+	process.exit();
+}
+
 function initDb(){
 	var sqlite3 = require("sqlite3").verbose();
 	db = new sqlite3.Database("./dataBase.sqlite");
@@ -61,8 +87,6 @@ function initDb(){
 					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","longitude","",139.786327);
 					db.run("INSERT INTO info (name,stringValue, numberValue) VALUES(?,?,?)","host","raspberrypi.local",30002);
 					console.log("Write defaultValue");
-//					rawHost = "127.0.0.1";
-//					rawPort = 30002;
 					receiverLocation.latitude = 35.552401;
 					receiverLocation.longitude = 139.786327;
 					initVariables();
@@ -86,8 +110,6 @@ function initDb(){
 									break;
 
 								case 'host':
-//									rawHost = row.stringValue;
-//									rawPort = row.numberValue;
 									break;
 
 								default:
@@ -140,6 +162,7 @@ function initDb(){
 		});
 	})
 }
+
 function initVariables(){
 	console.log("initialize variables.")
 	console.log("ReceiverLocation(Lat):"+receiverLocation.latitude.toString());
