@@ -13,12 +13,17 @@ exports.PacketCaputre = false;
 exports.decode = false;
 exports.connect = false;
 var isConnectWait = false;
+var rawHost;
+var rawPort;
 var timerID;
 var packetCountTimerID;
+var rawServerConnectTimerID;
 var portMap = require('./portMap');
 portMap.init();
 
 exports.startDecode = function(host, port) {
+	rawHost = host;
+	rawPort = port;
 	console.log("start decode called");
 	console.log("Host:"+host);
 	console.log("Port:"+port);
@@ -29,6 +34,7 @@ exports.startDecode = function(host, port) {
 	if ( packetCountTimerID != undefined && packetCountTimerID != null) clearTimeout(packetCountTimerID);
 	packetCount();
 
+	tryRawConnect();
 	isConnectWait = true;
 	timerID = setTimeout(function(){
 		console.log('Raw connection timeup.');
@@ -36,6 +42,18 @@ exports.startDecode = function(host, port) {
 		isConnectWait = false;
 	},10000);
 
+}
+	
+function tryRawConnect(){
+	rawServerConnectTimerID = settimeout(function(){
+		if ( exports.connect == false ){
+			exports.connectRawServer(rawPort, rawHost);
+		}
+		tryRawConnect(); 
+	},5000);
+}
+
+exports.connectRawServer = function(port,host){
 	socket = net.createConnection(port, host, function(stream) {
 		console.log("Create Raw message Connection");
 	});
@@ -66,7 +84,12 @@ exports.startDecode = function(host, port) {
 		isConnectWait = false;
 		clearTimeout(timerID);
 	});
+
+	socket.on('close', function() {
+		exports.connect = false;
+	});
 }
+
 
 exports.terminateRawConnection = function(){
 	console.log('raw connection terminated.');
