@@ -45,7 +45,7 @@ exports.startDecode = function(host, port) {
 }
 	
 function tryRawConnect(){
-	rawServerConnectTimerID = settimeout(function(){
+	rawServerConnectTimerID = setTimeout(function(){
 		if ( exports.connect == false ){
 			exports.connectRawServer(rawPort, rawHost);
 		}
