@@ -73,7 +73,7 @@ function printUsage(){
 
 function initDb(){
 	var sqlite3 = require("sqlite3").verbose();
-	db = new sqlite3.Database("./dataBase.sqlite");
+	db = new sqlite3.Database(__dirname + "/dataBase.sqlite");
 	db.serialize(function(){
 		db.all("select count(*) from sqlite_master where type='table' and name='capture'", function(err, rows){
 			var rslt =rows[0]; 
@@ -191,7 +191,7 @@ var server = http.createServer(function(request,response){
 	else {
 		filePath = 'Sites' + request.url;
 	}
-	var absPath = './' + filePath;
+	var absPath = __dirname + '/' + filePath;
 	serveStatic(response, cache, absPath);
 	console.log("Request Page:"+request.url);
 });
