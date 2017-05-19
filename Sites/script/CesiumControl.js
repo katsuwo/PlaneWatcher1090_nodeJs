@@ -13,9 +13,10 @@
     const CE_modelURL = '../model/simple_model.glb';
 
     function CE_init() {
- 		Cecium.BingMapsApi.defaultKey = "AiFixLCMSXG8FLenChOb7hwMqmCB54v37tSBKf8otN5N2AdNNvmLNxj-D5bT-NFE";
  		CE_polylines = new Cesium.PolylineCollection(); 
 		CE_scene = viewer.scene;
+    
+
 		CE_primitives = CE_scene.primitives;
 		CE_primitives.add(CE_polylines);
 		CE_initDone = true;
