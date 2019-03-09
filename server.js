@@ -15,6 +15,7 @@ decoder.decode = true;
 
 var logLevel = 2;
 var socketio = require('socket.io');
+var net = require('net');
 var io;
 var sock;
 var http = require('http');
@@ -34,14 +35,11 @@ var isPlayPacket = false;
 var geolib = require('geolib');
 var packetCountHistory = new Array(24 * 6);
 var trackCountHistory = new Array(24 * 6);
-
 var receiverLocation = {
 	latitude:0,
 	longitude:0
 };
-
 var directionAndDinstance = new Array(36*10);
-
 var maxRangeLocation = new Array(360);
 
 for(var i = 0;i < process.argv.length; i++){
@@ -182,6 +180,27 @@ function initVariables(){
 	decoder.startDecode(rawHost,rawPort);
 }
 
+var rawSender = net.createServer();
+rawSender.listen(4000, '0.0.0.0',function(){
+	console.log("Rawesnder start listen 0.0.0.0 :4000");
+});
+
+var clients = {};
+function Client(socket){
+	this.socket = socket;
+}
+Client.prototype.writeData = function (d) {
+	var socket = this.socket;
+	if (socket.writable){
+		socket.write(d);
+	}
+};
+rawSender.on("connection",function(socket){
+	var key = socket.remoteAddress + ":" + socket.remotePort;
+	clients[key] = new Client(socket);
+	var keys = Object.keys(clients);
+	console.log(keys);
+});
 
 var server = http.createServer(function(request,response){
 	var filePath = false;
@@ -195,7 +214,6 @@ var server = http.createServer(function(request,response){
 	serveStatic(response, cache, absPath);
 	console.log("Request Page:"+request.url);
 });
-
 
 function startHttpServer(){
 	server.listen(3000,function(){
@@ -270,6 +288,7 @@ function startHttpServer(){
 			console.log(recStartTime);
 			decoder.PacketCaputre = true;
 		});
+
 		socket.on('REQ_RECEND',function(){
 			console.log("RecEnd");
 			recEndTime = dateformat(new Date(), "yyyy/mm/dd HH:MM:ss");
@@ -331,7 +350,11 @@ playEventEmitter.on("PLAY",function(i){
 		setTimeout(function(){
 			decoder.decodePackets(packet);
 			playEventEmitter.emit("PLAY",++i);
-		},intval);								
+			var keys = Object.keys(clients);
+			for(key in keys){
+				clients[keys[0]].writeData(packet);
+			}
+		},intval);
 	}
 });
 
