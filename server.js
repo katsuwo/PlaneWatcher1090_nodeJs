@@ -180,9 +180,30 @@ function initVariables(){
 	decoder.startDecode(rawHost,rawPort);
 }
 
-var rawSender = net.createServer();
-rawSender.listen(4000, '0.0.0.0',function(){
-	console.log("Rawesnder start listen 0.0.0.0 :4000");
+var rawSender = net.createServer(function (connection) {
+	console.log('*********************************************************************************************');
+
+
+	connection.on('error', function (socket) {
+		var key = socket.remoteAddress + ":" + socket.remotePort;
+		console.log("Raw sender ERROR:" + key);
+	});
+
+	connection.on('close', function (socket) {
+		var key = socket.remoteAddress + ":" + socket.remotePort;
+//		delete clients[key];
+		console.log("Disconnect Raw sender Client:" + key);
+		var keys = Object.keys(clients);
+		console.log(keys);
+	});
+}).listen(4000);
+
+rawSender.on("connection", function (socket) {
+	var key = socket.remoteAddress + ":" + socket.remotePort;
+	clients[key] = new Client(socket);
+	console.log("Connect Raw sender Client:" + key);
+	var keys = Object.keys(clients);
+	console.log(keys);
 });
 
 var clients = {};
@@ -195,12 +216,6 @@ Client.prototype.writeData = function (d) {
 		socket.write(d);
 	}
 };
-rawSender.on("connection",function(socket){
-	var key = socket.remoteAddress + ":" + socket.remotePort;
-	clients[key] = new Client(socket);
-	var keys = Object.keys(clients);
-	console.log(keys);
-});
 
 var server = http.createServer(function(request,response){
 	var filePath = false;
@@ -351,12 +366,18 @@ playEventEmitter.on("PLAY",function(i){
 			decoder.decodePackets(packet);
 			playEventEmitter.emit("PLAY",++i);
 			var keys = Object.keys(clients);
-			for(key in keys){
-				clients[keys[0]].writeData(packet);
+			for(key in clients){
+				clients[key].writeData(packet);
 			}
 		},intval);
 	}
 });
+setInterval(function(){
+	if (isPlayPacket == false) return;
+	for(key in clients){
+		clients[key].writeData("*0000;");
+	}
+},100);
 
 emitter.on('AIRCRAFTPOSITIONUPDATE',function(tempAC){
 	if (logLevel == 1 )console.log(tempAC);
@@ -534,5 +555,4 @@ Math.radians = function(degrees) {
 Math.degrees = function(radians) {
   return radians * 180 / Math.PI;
 }
-
 
